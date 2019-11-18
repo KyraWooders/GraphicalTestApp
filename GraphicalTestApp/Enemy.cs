@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphicalTestApp
 {
-    class Enemy : Actor
+    class Enemy : Entity
     {
         private Direction _facing;
         public float Speed { get; set; } = 5f;

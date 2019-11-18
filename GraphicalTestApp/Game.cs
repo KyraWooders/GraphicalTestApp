@@ -43,7 +43,7 @@ namespace GraphicalTestApp
 
                 //Draw the active Scene
                 RL.BeginDrawing();
-                RL.ClearBackground(Color.BLUE);
+                RL.ClearBackground(Color.DARKPURPLE);
                 _root.Draw();
                 RL.EndDrawing();
             }
