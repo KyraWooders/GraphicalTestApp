@@ -6,7 +6,7 @@ namespace GraphicalTestApp
     {
         public float Width { get; set; } = 1;
         public float Height { get; set; } = 1;
-
+        private bool[,] _collision;
         //Returns the Y coordinate at the top of the box
         public float Top
         {

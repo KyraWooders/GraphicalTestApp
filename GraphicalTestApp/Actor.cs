@@ -24,61 +24,110 @@ namespace GraphicalTestApp
         public float X
         {
             //## Implement the relative X coordinate ##//
-            get { return 0; }
-            set { }
+            get { return _localTransform.m13; }
+            set
+            {
+                _localTransform.SetTranslation(value, Y, 1);
+                UpdateTransform();
+
+            }
         }
+
         public float XAbsolute
         {
             //## Implement the absolute X coordinate ##//
-            get { return 0; }
+            get { return _globalTransform.m13; }
         }
+
         public float Y
         {
             //## Implement the relative Y coordinate ##//
-            get { return 0; }
-            set { }
+            get { return _localTransform.m23; }
+            set
+            {
+                _localTransform.SetTranslation(X, value, 1);
+                UpdateTransform();
+            }
         }
+
         public float YAbsolute
         {
             //## Implement the absolute Y coordinate ##//
-            get { return 0; }
+            get { return _globalTransform.m23; }
         }
+
+        //the scene the entity is currently in
+        public AABB CurrentScene { set; get; }
 
         public float GetRotation()
         {
             //## Implement getting the rotation of _localTransform ##//
-            return 0;
+            return (float)Math.Atan2(_globalTransform.m21, _globalTransform.m11);
         }
 
         public void Rotate(float radians)
         {
             //## Implement rotating _localTransform ##//
+            _localTransform.RotateZ(radians);
+            UpdateTransform();
         }
 
         public float GetScale()
         {
             //## Implement getting the scale of _localTransform ##//
-            return 0;
+            return 1;
         }
 
-        public void Scale(float scale)
+        public void Scale(float width, float height)
         {
             //## Implement scaling _localTransform ##//
+            _localTransform.Scale(width, height, 1);
+            UpdateTransform();
         }
 
         public void AddChild(Actor child)
         {
             //## Implement AddChild(Actor) ##//
+            //make sure the child doesn't already have a parent
+            if (child.Parent != null)
+            {
+                return;
+            }
+
+            //assign this Entity as the child's parent
+            child.Parent = this;
+
+            //add new child to collection
+            _children.Add(child);
         }
 
         public void RemoveChild(Actor child)
         {
             //## Implement RemoveChild(Actor) ##//
+            bool isMyChild = _children.Remove(child);
+            if (isMyChild)
+            {
+                child.Parent = null;
+                child._localTransform = child._globalTransform;
+            }
         }
 
         public void UpdateTransform()
         {
             //## Implment UpdateTransform() ##//
+            if (Parent != null)
+            {
+                _globalTransform = Parent._globalTransform * _localTransform;
+            }
+            else
+            {
+                _globalTransform = _localTransform;
+            }
+
+            foreach (Entity child in _children)
+            {
+                child.UpdateTransform();
+            }
         }
 
         //Call the OnStart events of the Actor and its children
