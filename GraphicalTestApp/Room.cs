@@ -13,7 +13,7 @@ namespace GraphicalTestApp
         South,
         West
     }
-    class Room
+    class Room : AABB
     {
         private Room _north;
         private Room _south;
@@ -44,11 +44,6 @@ namespace GraphicalTestApp
                     //connect the rooms both ways
                     value._south = this;
                 }
-                ////if we are clearing 
-                //else
-                //{
-                //    _north._south = null;
-                //}
                 _north = value;
             }
         }
@@ -66,7 +61,6 @@ namespace GraphicalTestApp
                     value._north = this;
                 }
                 _south = value;
-                //value._north = this;
             }
         }
         public Room East
@@ -83,7 +77,6 @@ namespace GraphicalTestApp
                     value._west = this;
                 }
                 _east = value;
-                //value._west = this;
             }
         }
         public Room West
@@ -100,7 +93,6 @@ namespace GraphicalTestApp
                     value._east = this;
                 }
                 _west = value;
-                //value._east = this;
             }
         }
     }

@@ -10,27 +10,21 @@ namespace GraphicalTestApp
     {
         private Direction _facing;
         public float Speed { get; set; } = 5f;
+        private static Sprite sprite = new Sprite("gameAssets/5PgNs16.jpg");
+        private AABB HitBox = new AABB(sprite.Width, sprite.Height);
+
+        ////the scene the entity is currently in
+        //public AABB CurrentScene { set; get; }
 
         //cretes a new enemy represented by the 'e' symdol and rat image
-        public Enemy() : this('*')
-        {
-
-        }
-        public Enemy(char icon) : base(icon)
+        public Enemy(float x, float y) : base(x, y)
         {
             _facing = Direction.North;
-            OnUpdate += Move;
-            OnUpdate += TouchPlayer;
-        }
-
-        //Creates a new Enemy with the specified symbol
-        public Enemy(string imageName) : base('*', imageName)
-        {
-            //Start the Enemy facing North
-            _facing = Direction.North;
-
-            //Add Move and TouchPlayer to the OnUpdate Event
-            OnUpdate += Move;
+            //OnUpdate += Move;
+            
+            AddChild(sprite);
+            
+            AddChild(HitBox);
             OnUpdate += TouchPlayer;
         }
 
@@ -38,17 +32,20 @@ namespace GraphicalTestApp
         private void TouchPlayer(float deltaTime)
         {
             //get the list of Entities in our space
-            List<Entity> touched = CurrentScene.GetEntities(X, Y);
+            if (Player.Instance.HitBox.DetectCollision(HitBox))
+            {
+                RemoveChild(this);
+            }
 
             //check if any of them are players
-            foreach (Entity e in touched)
-            {
-                if (e is Player)
-                {
-                    CurrentScene.RemoveEntity(this);
-                    break;
-                }
-            }
+            //foreach (Entity e in touched)
+            //{
+            //    if (e is Player)
+            //    {
+            //        RemoveChild(this);
+            //        break;
+            //    }
+            //}
         }
 
         //Move in the direction the Enemy is facing
@@ -75,65 +72,33 @@ namespace GraphicalTestApp
         //Move one space down
         private void MoveDown(float deltaTime)
         {
-            //move down if the space is clear
-            if (!CurrentScene.DetectCollision(XAbsolute, Sprite.Bottom + Speed * deltaTime))
-            {
-                YVelocity = Speed * deltaTime;
-            }
-            //Otherwise stop and change direction
-            else
-            {
-                YVelocity = 0f;
-                _facing++;
-            }
+            YVelocity = Speed * deltaTime;
+            YVelocity = 0.5f;
+             _facing++;
         }
 
         //Move one space right
         private void MoveRight(float deltaTime)
         {
-            //Move right if the space is clear
-            if (!CurrentScene.DetectCollision(Sprite.Right + Speed * deltaTime, YAbsolute))
-            {
-                XVelocity = Speed * deltaTime;
-            }
-            //Otherwise stop and change direction
-            else
-            {
-                XVelocity = 0f;
-                _facing++;
-            }
+            YVelocity = Speed * deltaTime;
+            YVelocity = 0.5f;
+            _facing++;
         }
 
         //Move one space left
         private void MoveLeft(float deltaTime)
         {
-            //Move left if the space is clear
-            if (!CurrentScene.DetectCollision(Sprite.Left - Speed * deltaTime, YAbsolute))
-            {
-                XVelocity = -Speed * deltaTime;
-            }
-            //Otherwise stop and change direction
-            else
-            {
-                XVelocity = 0f;
-                _facing = Direction.North;
-            }
+            YVelocity = Speed * deltaTime;
+            YVelocity = 0.5f;
+            _facing = Direction.North;
         }
 
         //move one space up
         private void MoveUp(float deltaTime)
         {
-            //Move up if the space is clear
-            if (!CurrentScene.DetectCollision(XAbsolute, Sprite.Top - Speed * deltaTime))
-            {
-                YVelocity = -Speed * deltaTime;
-            }
-            //Otherwise change direction
-            else
-            {
-                YVelocity = 0f;
-                _facing++;
-            }
+            YVelocity = Speed * deltaTime;
+            YVelocity = 0.5f;
+            _facing++;
         }
     }
 }

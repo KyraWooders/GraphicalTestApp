@@ -6,180 +6,93 @@ using System.Threading.Tasks;
 
 namespace GraphicalTestApp
 {
-    class Player : Actor
+    class Player : Entity
     {
-        private PlayerInput _input = new PlayerInput();
-        private Entity _sword = new Entity('/', "cryingcat.jpg");
-        public Entity Sword
+        private Sword _sword { get; } = new Sword(33,0);
+        private static Player _instance;
+
+        Sprite _sprite;
+        AABB _hitBox;
+
+        public Player(float x, float y) : base(x, y)
+        {
+            OnUpdate += MoveRight;
+            OnUpdate += MoveLeft;
+            OnUpdate += MoveUp;
+            OnUpdate += MoveDown;
+
+            _sprite = new Sprite("gameAssets/cry.jpg");
+            AddChild(_sprite);
+            
+            _hitBox = new AABB(_sprite.Width, _sprite.Height);
+            AddChild(_hitBox);
+
+            AddChild(_sword);
+        }
+
+        public static Player Instance
         {
             get
             {
-                return _sword;
+                return _instance;
             }
         }
 
-        public Player() : this('@')
+        public AABB HitBox
         {
-
-        }
-
-        public Player(string imageName) : base('@', imageName)
-        {
-            //bind movement methods to the arrow keysc
-            _input.AddKeyEvent(MoveRight, 100);//D
-            _input.AddKeyEvent(MoveLeft, 97);//A
-            _input.AddKeyEvent(MoveUp, 119);//W
-            _input.AddKeyEvent(MoveDown, 115);//S
-            _input.AddKeyEvent(DetachSword, 69);//Shift + E
-            _input.AddKeyEvent(AttachSword, 101);//E
-            //add Readkey to this Entity's onupdate
-            OnUpdate += _input.ReadKey;
-            OnUpdate += Orbiit;
-            OnStart += AddSword;
-            OnStart += AttachSword;
-        }
-
-        public Player(char icon, string imageName) : base(icon, imageName)
-        {
-
-        }
-
-        public Player(char icon) : base(icon)
-        {
-
-        }
-
-        //add a sword to the scene
-        private void AddSword()
-        {
-            CurrentScene.AddEntity(_sword);
-            _sword.X = X;
-            _sword.Y = Y;
-        }
-        //add sword as child
-        private void AttachSword()
-        {
-            if (!Hitbox.Overlaps(_sword.Hitbox))
+            get
             {
-                return;
+                return _hitBox;
             }
-            AddChild(_sword);
-            _sword.X = 1.25f;
-            _sword.Y = 0.05f;
-        }
-
-        //drop the sword
-        private void DetachSword()
-        {
-            if (_sword.CurrentScene != CurrentScene)
-            {
-                return;
-            }
-            RemoveChild(_sword);
-        }
-
-        private void Orbiit(float deltaTime)
-        {
-            foreach (Entity child in _children)
-            {
-                child.Rotate(0.5f * deltaTime);
-            }
-
-            Rotate(0.5f * deltaTime);
         }
 
         //Move one space to the right
-        private void MoveRight()
+        private void MoveRight(float deltaTime)
         {
-            if (X + 1 >= CurrentScene.SizeX)
+            if (Input.IsKeyDown(68))//D
             {
-                if (CurrentScene is Room)
-                {
-                    Room dest = (Room)CurrentScene;
-                    Travel(dest.East);
-                }
-                X = 0;
-            }
-            else if (!CurrentScene.GetCollision(X + 1, Y))
-            {
-                X++;
+                X += 100 * deltaTime;
             }
         }
 
         //move one space to the left
-        private void MoveLeft()
+        private void MoveLeft(float deltaTime)
         {
-            if (X - 1 < 0)
+            if (Input.IsKeyDown(65))//A
             {
-                if (CurrentScene is Room)
-                {
-                    Room dest = (Room)CurrentScene;
-                    Travel(dest.West);
-                }
-                X = CurrentScene.SizeX - 1;
-            }
-            else if (!CurrentScene.GetCollision(X - 1, Y))
-            {
-                X--;
+                X -= 100 * deltaTime;
             }
         }
 
-        private void MoveDown()
+        private void MoveDown(float deltaTime)
         {
-            if (Y + 1 >= CurrentScene.SizeY)
+            if (Input.IsKeyDown(83))//S
             {
-                if (CurrentScene is Room)
-                {
-                    Room dest = (Room)CurrentScene;
-                    Travel(dest.South);
-                }
-                Y = 0;
-            }
-            else if (!CurrentScene.GetCollision(X, Y + 1))
-            {
-                Y++;
+                Y += 100 * deltaTime;
             }
         }
 
-        private void MoveUp()
+        private void MoveUp(float deltaTime)
         {
-            if (Y - 1 < 0)
+            if (Input.IsKeyDown(87))//W
             {
-                if (CurrentScene is Room)
-                {
-                    Room dest = (Room)CurrentScene;
-                    Travel(dest.North);
-                }
-                Y = CurrentScene.SizeY - 1;
-            }
-            else if (!CurrentScene.GetCollision(X, Y - 1))
-            {
-                Y--;
+                Y -= 100 * deltaTime;
             }
         }
 
-        //move the player to the destination room and change the Scene 
-        private void Travel(Room destination)
-        {
-            //ensure destion is not null
-            if (destination == null)
-            {
-                return;
-            }
-            if (_sword.Parent == this)
-            {
-                //remove the sword from the 
-                CurrentScene.RemoveEntity(_sword);
-                //
-                destination.AddEntity(_sword);
-            }
-            //remove the player from its current room
-            CurrentScene.RemoveEntity(this);
-            //add the player to the destination room
-            destination.AddEntity(this);
-            //change the game's active snene to the destination
-            Game.CurrentScene = destination;
-        }
-
+        ////move the player to the destination room and change the Scene 
+        //private void Travel(Room destination)
+        //{
+        //    //ensure destion is not null
+        //    if (destination == null)
+        //    {
+        //        return;
+        //    }
+        //    //remove the player from its current room
+        //    CurrentScene.RemoveChild(this);
+        //    //add the player to the destination room
+        //    destination.AddChild(this);
+        //    //change the game's active snene to the destination
+        //}
     }
 }

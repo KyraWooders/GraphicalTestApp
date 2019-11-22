@@ -38,7 +38,7 @@ namespace GraphicalTestApp
             X = x;
             Y = y;
         }
-
+        
         public override void Update(float deltaTime)
         {
             //## Calculate velocity from acceleration ##//

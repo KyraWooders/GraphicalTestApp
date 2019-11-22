@@ -17,6 +17,9 @@ namespace GraphicalTestApp
 
         public Actor Parent { get; private set; } = null;
         private List<Actor> _children = new List<Actor>();
+        private List<Actor> _additions = new List<Actor>();
+        private List<Actor> _removals = new List<Actor>();
+
 
         private Matrix3 _localTransform = new Matrix3();
         private Matrix3 _globalTransform = new Matrix3();
@@ -55,10 +58,7 @@ namespace GraphicalTestApp
             //## Implement the absolute Y coordinate ##//
             get { return _globalTransform.m23; }
         }
-
-        //the scene the entity is currently in
-        public AABB CurrentScene { set; get; }
-
+        
         public float GetRotation()
         {
             //## Implement getting the rotation of _localTransform ##//
@@ -78,16 +78,16 @@ namespace GraphicalTestApp
             return 1;
         }
 
-        public void Scale(float width, float height)
+        public void Scale(float scale)
         {
             //## Implement scaling _localTransform ##//
-            _localTransform.Scale(width, height, 1);
+            _localTransform.Scale(X,Y,1);
             UpdateTransform();
         }
 
         public void AddChild(Actor child)
         {
-            //## Implement AddChild(Actor) ##//
+
             //make sure the child doesn't already have a parent
             if (child.Parent != null)
             {
@@ -124,7 +124,7 @@ namespace GraphicalTestApp
                 _globalTransform = _localTransform;
             }
 
-            foreach (Entity child in _children)
+            foreach (Actor child in _children)
             {
                 child.UpdateTransform();
             }
@@ -154,6 +154,26 @@ namespace GraphicalTestApp
 
             //Call this Actor's OnUpdate events
             OnUpdate?.Invoke(deltaTime);
+
+            //Add all the Actors readied for addition
+            foreach (Actor a in _additions)
+            {
+                //Add a to _children
+                _children.Add(a);
+            }
+
+            //Reset the addition list
+            _additions.Clear();
+            
+            //Remove all the Actors readied for removal
+            foreach (Actor a in _removals)
+            {
+                //Remove a to _children
+                _children.Remove(a);
+            }
+
+            //Reset the removal list
+            _removals.Clear();
 
             //Update all of this Actor's children
             foreach (Actor child in _children)
