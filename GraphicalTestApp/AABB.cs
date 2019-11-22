@@ -52,8 +52,8 @@ namespace GraphicalTestApp
             //## Implement DetectCollision(Vector3) ##//
             //Detects the hitbox's point collisions to another hitbox 
             //the other
-            return !(point.x < Top || point.y < Left ||
-                point.x > Bottom || point.y > Right);
+            return !(point.y < Top || point.x < Left ||
+                point.y > Bottom || point.x > Right);
         }
 
         //Draw the bounding box to the screen

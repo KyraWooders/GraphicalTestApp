@@ -19,9 +19,15 @@ namespace GraphicalTestApp
             //## Set up game here ##//
             Player player = new Player(640,380);
             Enemy enemy = new Enemy(300, 100);
+            Enemy enemy1 = new Enemy(400, 100);
+            Enemy enemy2 = new Enemy(500, 100);
+            Enemy enemy3 = new Enemy(900, 200);
 
-            root.AddChild(enemy);
             root.AddChild(player);
+            root.AddChild(enemy);
+            root.AddChild(enemy1);
+            root.AddChild(enemy2);
+            root.AddChild(enemy3);
 
             game.Run();
         }

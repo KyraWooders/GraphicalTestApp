@@ -87,29 +87,29 @@ namespace GraphicalTestApp
 
         public void AddChild(Actor child)
         {
-
-            //make sure the child doesn't already have a parent
-            if (child.Parent != null)
+            //Ensure the entity is not already added
+            if (_additions.Contains(child))
             {
                 return;
             }
-
-            //assign this Entity as the child's parent
+            //ready the entity for addition
+            _additions.Add(child);
+            //set this scene as the entity's scene
             child.Parent = this;
-
-            //add new child to collection
-            _children.Add(child);
         }
 
         public void RemoveChild(Actor child)
         {
             //## Implement RemoveChild(Actor) ##//
-            bool isMyChild = _children.Remove(child);
-            if (isMyChild)
+            //Ensure the entity is not already removed
+            if (_removals.Contains(child))
             {
-                child.Parent = null;
-                child._localTransform = child._globalTransform;
+                return;
             }
+            //ready the entity for removal
+            _removals.Add(child);
+            //
+            child.Parent = null;
         }
 
         public void UpdateTransform()

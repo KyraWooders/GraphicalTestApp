@@ -19,11 +19,11 @@ namespace GraphicalTestApp
         {
             if (Input.IsKeyDown(262))
             {
-                Rotate(5f * deltaTime);
+                Rotate(100f * deltaTime);
             }
             if (Input.IsKeyDown(263))
             {
-                Rotate(-5f * deltaTime);
+                Rotate(-100f * deltaTime);
             }
         }
     }

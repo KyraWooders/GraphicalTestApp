@@ -21,6 +21,8 @@ namespace GraphicalTestApp
             OnUpdate += MoveUp;
             OnUpdate += MoveDown;
 
+            _instance = this;
+
             _sprite = new Sprite("gameAssets/cry.jpg");
             AddChild(_sprite);
             

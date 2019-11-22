@@ -9,9 +9,9 @@ namespace GraphicalTestApp
     class Enemy : Entity
     {
         private Direction _facing;
-        public float Speed { get; set; } = 5f;
-        private static Sprite sprite = new Sprite("gameAssets/5PgNs16.jpg");
-        private AABB HitBox = new AABB(sprite.Width, sprite.Height);
+        public float Speed { get; set; } = 175f;
+        private Sprite sprite;
+        private AABB HitBox;
 
         ////the scene the entity is currently in
         //public AABB CurrentScene { set; get; }
@@ -20,10 +20,10 @@ namespace GraphicalTestApp
         public Enemy(float x, float y) : base(x, y)
         {
             _facing = Direction.North;
-            //OnUpdate += Move;
-            
+            OnUpdate += Move;
+            sprite = new Sprite("gameAssets/5PgNs16.jpg");
             AddChild(sprite);
-            
+            HitBox = new AABB(sprite.Width, sprite.Height);
             AddChild(HitBox);
             OnUpdate += TouchPlayer;
         }
@@ -34,7 +34,7 @@ namespace GraphicalTestApp
             //get the list of Entities in our space
             if (Player.Instance.HitBox.DetectCollision(HitBox))
             {
-                RemoveChild(this);
+                Parent.RemoveChild(this);
             }
 
             //check if any of them are players
@@ -73,32 +73,43 @@ namespace GraphicalTestApp
         private void MoveDown(float deltaTime)
         {
             YVelocity = Speed * deltaTime;
-            YVelocity = 0.5f;
-             _facing++;
+            if (Y >= 727)
+            {
+                _facing++;
+            }
         }
 
         //Move one space right
         private void MoveRight(float deltaTime)
         {
-            YVelocity = Speed * deltaTime;
-            YVelocity = 0.5f;
-            _facing++;
+            XVelocity = Speed * deltaTime;
+            if (X >= 1247)
+            {
+                _facing++;
+            }
+            
         }
 
         //Move one space left
         private void MoveLeft(float deltaTime)
         {
-            YVelocity = Speed * deltaTime;
-            YVelocity = 0.5f;
-            _facing = Direction.North;
+            XVelocity = -(Speed * deltaTime);
+            if (X <= 33)
+            {
+                _facing = Direction.North;
+            }
         }
 
         //move one space up
         private void MoveUp(float deltaTime)
         {
-            YVelocity = Speed * deltaTime;
-            YVelocity = 0.5f;
-            _facing++;
+            YVelocity = -(Speed * deltaTime);
+            //YVelocity = -0.5f;
+            if (Y <= 33)
+            {
+                _facing++;
+            }
+            
         }
     }
 }
