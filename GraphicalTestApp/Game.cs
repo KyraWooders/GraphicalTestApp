@@ -62,5 +62,6 @@ namespace GraphicalTestApp
                 if (_root == null) _root = value;
             }
         }
+        
     }
 }

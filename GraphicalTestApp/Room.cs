@@ -19,16 +19,19 @@ namespace GraphicalTestApp
         private Room _south;
         private Room _east;
         private Room _west;
-
-        public Room() : this(12, 6)
+        
+        public Room(float width,float height) : base(width, height)
         {
 
         }
 
-        public Room(int sizeX, int sizeY) : base(sizeX, sizeY)
+        public void Solid(float x, float y)
         {
-
+            X = x;
+            Y = y;
         }
+
+
 
         public Room North
         {

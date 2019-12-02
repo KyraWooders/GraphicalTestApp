@@ -11,41 +11,65 @@ namespace GraphicalTestApp
         private Direction _facing;
         public float Speed { get; set; } = 175f;
         private Sprite sprite;
-        private AABB HitBox;
+        private AABB _hitBox;
+        private static Enemy _instance;
 
-        ////the scene the entity is currently in
-        //public AABB CurrentScene { set; get; }
-
-        //cretes a new enemy represented by the 'e' symdol and rat image
+        //cretes a new enemy
         public Enemy(float x, float y) : base(x, y)
         {
             _facing = Direction.North;
             OnUpdate += Move;
+
+            _instance = this;
+
             sprite = new Sprite("gameAssets/5PgNs16.jpg");
             AddChild(sprite);
-            HitBox = new AABB(sprite.Width, sprite.Height);
-            AddChild(HitBox);
+
+            _hitBox = new AABB(sprite.Width, sprite.Height);
+            AddChild(_hitBox);
+
+            OnUpdate += TouchSword;
             OnUpdate += TouchPlayer;
+        }
+        
+        public static Enemy Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
+        public AABB HitBox
+        {
+            get
+            {
+                return _hitBox;
+            }
         }
 
         //Check to see if the Enemy has touched a player and remove itself if so
+        private void TouchSword(float deltaTime)
+        {
+            if (Player.Instance.Parent != null)
+            {
+                if (Sword.Instance.HitBox.DetectCollision(HitBox))
+                {
+                    Parent.RemoveChild(this);
+                }
+            }
+            
+        }
+
         private void TouchPlayer(float deltaTime)
         {
-            //get the list of Entities in our space
             if (Player.Instance.HitBox.DetectCollision(HitBox))
             {
-                Parent.RemoveChild(this);
+                if (Player.Instance.Parent != null)
+                {
+                    Player.Instance.Parent.RemoveChild(Player.Instance);
+                }
+                
             }
-
-            //check if any of them are players
-            //foreach (Entity e in touched)
-            //{
-            //    if (e is Player)
-            //    {
-            //        RemoveChild(this);
-            //        break;
-            //    }
-            //}
         }
 
         //Move in the direction the Enemy is facing

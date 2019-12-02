@@ -64,7 +64,7 @@ namespace GraphicalTestApp
                 Top, 
                 Width, 
                 Height);
-            Raylib.Raylib.DrawRectangleLinesEx(rec, 5, Raylib.Color.RED);
+            Raylib.Raylib.DrawRectangleLinesEx(rec, 2, Raylib.Color.RED);
             base.Draw();
         }
     }

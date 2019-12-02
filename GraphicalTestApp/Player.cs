@@ -20,7 +20,7 @@ namespace GraphicalTestApp
             OnUpdate += MoveLeft;
             OnUpdate += MoveUp;
             OnUpdate += MoveDown;
-
+            
             _instance = this;
 
             _sprite = new Sprite("gameAssets/cry.jpg");
@@ -30,6 +30,7 @@ namespace GraphicalTestApp
             AddChild(_hitBox);
 
             AddChild(_sword);
+
         }
 
         public static Player Instance
@@ -39,7 +40,6 @@ namespace GraphicalTestApp
                 return _instance;
             }
         }
-
         public AABB HitBox
         {
             get
@@ -47,6 +47,14 @@ namespace GraphicalTestApp
                 return _hitBox;
             }
         }
+
+        //private void TouchEnemy(float deltaTime)
+        //{
+        //    if (Enemy.Instance.HitBox.DetectCollision(HitBox))
+        //    {
+        //        Parent.RemoveChild(this);
+        //    }
+        //}
 
         //Move one space to the right
         private void MoveRight(float deltaTime)
