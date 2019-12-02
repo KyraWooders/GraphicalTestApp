@@ -14,7 +14,7 @@ namespace GraphicalTestApp
         private AABB _hitBox;
         private static Enemy _instance;
 
-        //cretes a new enemy
+        //creates a new enemy
         public Enemy(float x, float y) : base(x, y)
         {
             _facing = Direction.North;

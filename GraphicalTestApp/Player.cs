@@ -14,6 +14,7 @@ namespace GraphicalTestApp
         Sprite _sprite;
         AABB _hitBox;
 
+        //creates a new player
         public Player(float x, float y) : base(x, y)
         {
             OnUpdate += MoveRight;
@@ -30,9 +31,9 @@ namespace GraphicalTestApp
             AddChild(_hitBox);
 
             AddChild(_sword);
-
         }
 
+        //getting an instance of the player
         public static Player Instance
         {
             get
@@ -40,6 +41,8 @@ namespace GraphicalTestApp
                 return _instance;
             }
         }
+
+        //getting an instance to the player's hitbox
         public AABB HitBox
         {
             get
@@ -47,15 +50,7 @@ namespace GraphicalTestApp
                 return _hitBox;
             }
         }
-
-        //private void TouchEnemy(float deltaTime)
-        //{
-        //    if (Enemy.Instance.HitBox.DetectCollision(HitBox))
-        //    {
-        //        Parent.RemoveChild(this);
-        //    }
-        //}
-
+        
         //Move one space to the right
         private void MoveRight(float deltaTime)
         {
@@ -74,6 +69,7 @@ namespace GraphicalTestApp
             }
         }
 
+        //move one space down
         private void MoveDown(float deltaTime)
         {
             if (Input.IsKeyDown(83))//S
@@ -81,7 +77,8 @@ namespace GraphicalTestApp
                 Y += 100 * deltaTime;
             }
         }
-
+        
+        //move one space up
         private void MoveUp(float deltaTime)
         {
             if (Input.IsKeyDown(87))//W
@@ -89,20 +86,5 @@ namespace GraphicalTestApp
                 Y -= 100 * deltaTime;
             }
         }
-
-        ////move the player to the destination room and change the Scene 
-        //private void Travel(Room destination)
-        //{
-        //    //ensure destion is not null
-        //    if (destination == null)
-        //    {
-        //        return;
-        //    }
-        //    //remove the player from its current room
-        //    CurrentScene.RemoveChild(this);
-        //    //add the player to the destination room
-        //    destination.AddChild(this);
-        //    //change the game's active snene to the destination
-        //}
     }
 }
