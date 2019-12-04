@@ -42,10 +42,10 @@ namespace GraphicalTestApp
         public override void Update(float deltaTime)
         {
             //## Calculate velocity from acceleration ##//
-            _velocity += _acceleration;
+            _velocity += _acceleration * deltaTime;
             //## Calculate position from velocity ##//
-            X += _velocity.x;
-            Y += _velocity.y;
+            X += _velocity.x * deltaTime;
+            Y += _velocity.y * deltaTime;
             base.Update(deltaTime);
         }
     }

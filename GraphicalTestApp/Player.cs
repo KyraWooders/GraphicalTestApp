@@ -9,11 +9,14 @@ namespace GraphicalTestApp
     class Player : Entity
     {
         private Sword _sword { get; } = new Sword(66,0);
-        private Bullet _bullet { get; set; } = new Bullet(0, 0);
         private static Player _instance;
-
+        public List<Bullet> _bulletsfired = new List<Bullet>();
+        
         Sprite _sprite;
         AABB _hitBox;
+
+
+
 
         //creates a new player
         public Player(float x, float y) : base(x, y)
@@ -34,6 +37,7 @@ namespace GraphicalTestApp
             AddChild(_hitBox);
 
             AddChild(_sword);
+            
         }
 
         //getting an instance of the player
@@ -92,32 +96,35 @@ namespace GraphicalTestApp
 
         private void FireBulletUp(float deltaTime)
         {
-
             if (Input.IsKeyPressed(265))//upkey
             {
-                _bullet = new Bullet(this.X, this.Y);
-                Parent.AddChild(_bullet);
-                _bullet.MoveUp(deltaTime);
+                if (_bulletsfired.Count >= 5)
+                {
+                    Parent.RemoveChild(_bulletsfired[0]);
+                    _bulletsfired.Remove(_bulletsfired[0]);
+                }
+                Bullet bullet = new Bullet(this.X, this.Y);
+                _bulletsfired.Add(bullet);
+                Parent.AddChild(bullet);
+                bullet.MoveUp(deltaTime);
             }
-            if (_bullet.Y >= 0 || _bullet.YVelocity == 0 )
-            {
-                Parent.RemoveChild(_bullet);
-            }
-            
         }
 
         private void FireBulletDown(float deltaTime)
         {
             if (Input.IsKeyPressed(264))//downkey
             {
-                _bullet = new Bullet(this.X, this.Y);
-                Parent.AddChild(_bullet);
-                _bullet.MoveDown(deltaTime);
+                if (_bulletsfired.Count >= 5)
+                {
+                    Parent.RemoveChild(_bulletsfired[0]);
+                    _bulletsfired.Remove(_bulletsfired[0]);
+                }
+                Bullet bullet = new Bullet(this.X, this.Y);
+                _bulletsfired.Add(bullet);
+                Parent.AddChild(bullet);
+                bullet.MoveDown(deltaTime);
             }
-            if (_bullet.Y <= 760 || _bullet.YVelocity == 0 )
-            {
-                Parent.RemoveChild(_bullet);
-            }
+           
         }
     }
 }

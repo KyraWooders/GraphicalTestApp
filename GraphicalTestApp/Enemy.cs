@@ -13,6 +13,7 @@ namespace GraphicalTestApp
         private Sprite sprite;
         private AABB _hitBox;
         private static Enemy _instance;
+        
 
         //creates a new enemy
         public Enemy(float x, float y) : base(x, y)
@@ -30,7 +31,7 @@ namespace GraphicalTestApp
 
             OnUpdate += TouchSword;
             OnUpdate += TouchPlayer;
-            //OnUpdate += TouchBullet;
+            OnUpdate += TouchBullet;
         }
         
         public static Enemy Instance
@@ -76,9 +77,12 @@ namespace GraphicalTestApp
         //if the Enemy has touched bullets, remove itself
         private void TouchBullet(float deltaTime)
         {
-            if (Bullet.Instance.HitBox.DetectCollision(HitBox))
+            foreach(Bullet b in Player.Instance._bulletsfired)
             {
+                if (HitBox.DetectCollision(b.HitBox))
+                {
                     Parent.RemoveChild(this);
+                }
             }
         }
 
@@ -106,9 +110,10 @@ namespace GraphicalTestApp
         //Move one space down
         private void MoveDown(float deltaTime)
         {
-            YVelocity = Speed * deltaTime;
+            YVelocity = Speed;
             if (Y >= 727)
             {
+                YVelocity = 0;
                 _facing++;
             }
         }
@@ -116,9 +121,10 @@ namespace GraphicalTestApp
         //Move one space right
         private void MoveRight(float deltaTime)
         {
-            XVelocity = Speed * deltaTime;
+            XVelocity = Speed;
             if (X >= 1247)
             {
+                XVelocity = 0;
                 _facing++;
             }
             
@@ -127,9 +133,10 @@ namespace GraphicalTestApp
         //Move one space left
         private void MoveLeft(float deltaTime)
         {
-            XVelocity = -(Speed * deltaTime);
+            XVelocity = -(Speed);
             if (X <= 33)
             {
+                XVelocity = 0;
                 _facing = Direction.North;
             }
         }
@@ -137,9 +144,10 @@ namespace GraphicalTestApp
         //move one space up
         private void MoveUp(float deltaTime)
         {
-            YVelocity = -(Speed * deltaTime);
+            YVelocity = -(Speed);
             if (Y <= 33)
             {
+                YVelocity = 0;
                 _facing++;
             }
             
