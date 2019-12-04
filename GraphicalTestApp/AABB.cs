@@ -40,7 +40,6 @@ namespace GraphicalTestApp
 
         public bool DetectCollision(AABB other)
         {
-            //## Implement DetectCollision(AABB) ##//
             //Detects the hitbox's side collisions to another hitbox
             //bottom of the first to the other's top, right of the first to the other's left, and vice versa
             return !(Bottom < other.Top || Right < other.Left ||
@@ -49,7 +48,6 @@ namespace GraphicalTestApp
 
         public bool DetectCollision(Vector3 point)
         {
-            //## Implement DetectCollision(Vector3) ##//
             //Detects the hitbox's point collisions to another hitbox 
             //the other
             return !(point.y < Top || point.x < Left ||

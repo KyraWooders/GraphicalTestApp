@@ -31,7 +31,7 @@ namespace GraphicalTestApp
             root.AddChild(enemy1);
             root.AddChild(enemy2);
             root.AddChild(enemy3);
-
+            
             game.Run();
         }
     }

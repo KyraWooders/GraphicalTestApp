@@ -17,7 +17,7 @@ namespace GraphicalTestApp
         {
             _instance = this;
 
-            _sprite = new Sprite("gameAssets/crying.jpg");
+            _sprite = new Sprite("gameAssets/eee.png");
             AddChild(_sprite);
 
             _hitBox = new AABB(_sprite.Width, _sprite.Height);

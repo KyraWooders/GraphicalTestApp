@@ -8,7 +8,8 @@ namespace GraphicalTestApp
 {
     class Player : Entity
     {
-        private Sword _sword { get; } = new Sword(33,0);
+        private Sword _sword { get; } = new Sword(66,0);
+        private Bullet _bullet { get; set; } = new Bullet(0, 0);
         private static Player _instance;
 
         Sprite _sprite;
@@ -21,10 +22,12 @@ namespace GraphicalTestApp
             OnUpdate += MoveLeft;
             OnUpdate += MoveUp;
             OnUpdate += MoveDown;
-            
+            OnUpdate += FireBulletUp;
+            OnUpdate += FireBulletDown;
+
             _instance = this;
 
-            _sprite = new Sprite("gameAssets/cry.jpg");
+            _sprite = new Sprite("gameAssets/aaa.png");
             AddChild(_sprite);
             
             _hitBox = new AABB(_sprite.Width, _sprite.Height);
@@ -84,6 +87,36 @@ namespace GraphicalTestApp
             if (Input.IsKeyDown(87))//W
             {
                 Y -= 100 * deltaTime;
+            }
+        }
+
+        private void FireBulletUp(float deltaTime)
+        {
+
+            if (Input.IsKeyPressed(265))//upkey
+            {
+                _bullet = new Bullet(this.X, this.Y);
+                Parent.AddChild(_bullet);
+                _bullet.MoveUp(deltaTime);
+            }
+            if (_bullet.Y >= 0 || _bullet.YVelocity == 0 )
+            {
+                Parent.RemoveChild(_bullet);
+            }
+            
+        }
+
+        private void FireBulletDown(float deltaTime)
+        {
+            if (Input.IsKeyPressed(264))//downkey
+            {
+                _bullet = new Bullet(this.X, this.Y);
+                Parent.AddChild(_bullet);
+                _bullet.MoveDown(deltaTime);
+            }
+            if (_bullet.Y <= 760 || _bullet.YVelocity == 0 )
+            {
+                Parent.RemoveChild(_bullet);
             }
         }
     }

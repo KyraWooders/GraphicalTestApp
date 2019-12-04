@@ -22,7 +22,7 @@ namespace GraphicalTestApp
 
             _instance = this;
 
-            sprite = new Sprite("gameAssets/5PgNs16.jpg");
+            sprite = new Sprite("gameAssets/000.png");
             AddChild(sprite);
 
             _hitBox = new AABB(sprite.Width, sprite.Height);
@@ -30,6 +30,7 @@ namespace GraphicalTestApp
 
             OnUpdate += TouchSword;
             OnUpdate += TouchPlayer;
+            //OnUpdate += TouchBullet;
         }
         
         public static Enemy Instance
@@ -39,6 +40,7 @@ namespace GraphicalTestApp
                 return _instance;
             }
         }
+
         public AABB HitBox
         {
             get
@@ -47,7 +49,7 @@ namespace GraphicalTestApp
             }
         }
 
-        //Check to see if the Enemy has touched a player and remove itself if so
+        //if the Enemy has touched the sword, remove itself
         private void TouchSword(float deltaTime)
         {
             if (Player.Instance.Parent != null)
@@ -57,9 +59,9 @@ namespace GraphicalTestApp
                     Parent.RemoveChild(this);
                 }
             }
-            
         }
 
+        //if the Enemy has touched the player, remove the player
         private void TouchPlayer(float deltaTime)
         {
             if (Player.Instance.HitBox.DetectCollision(HitBox))
@@ -68,7 +70,15 @@ namespace GraphicalTestApp
                 {
                     Player.Instance.Parent.RemoveChild(Player.Instance);
                 }
-                
+            }
+        }
+
+        //if the Enemy has touched bullets, remove itself
+        private void TouchBullet(float deltaTime)
+        {
+            if (Bullet.Instance.HitBox.DetectCollision(HitBox))
+            {
+                    Parent.RemoveChild(this);
             }
         }
 
@@ -128,7 +138,6 @@ namespace GraphicalTestApp
         private void MoveUp(float deltaTime)
         {
             YVelocity = -(Speed * deltaTime);
-            //YVelocity = -0.5f;
             if (Y <= 33)
             {
                 _facing++;
