@@ -14,10 +14,7 @@ namespace GraphicalTestApp
         
         Sprite _sprite;
         AABB _hitBox;
-
-
-
-
+        
         //creates a new player
         public Player(float x, float y) : base(x, y)
         {
@@ -94,6 +91,7 @@ namespace GraphicalTestApp
             }
         }
 
+        //fires bullet upwards
         private void FireBulletUp(float deltaTime)
         {
             if (Input.IsKeyPressed(265))//upkey
@@ -110,6 +108,7 @@ namespace GraphicalTestApp
             }
         }
 
+        //fires bullets downwards
         private void FireBulletDown(float deltaTime)
         {
             if (Input.IsKeyPressed(264))//downkey

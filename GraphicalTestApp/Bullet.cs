@@ -12,6 +12,7 @@ namespace GraphicalTestApp
         Sprite _sprite;
         AABB _hitBox;
         
+        //creates a new bullet
         public Bullet(float x, float y) : base(x, y)
         {
            
@@ -22,7 +23,8 @@ namespace GraphicalTestApp
             AddChild(_hitBox);
             
         }
-        
+
+        //getting an instance to the bullet's hitbox
         public AABB HitBox
         {
             get
@@ -42,7 +44,5 @@ namespace GraphicalTestApp
         {
             YVelocity = -Speed;
         }
-
-        
     }
 }

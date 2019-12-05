@@ -12,16 +12,15 @@ namespace GraphicalTestApp
         public float Speed { get; set; } = 175f;
         private Sprite sprite;
         private AABB _hitBox;
-        private static Enemy _instance;
         
-
+        
         //creates a new enemy
         public Enemy(float x, float y) : base(x, y)
         {
             _facing = Direction.North;
             OnUpdate += Move;
 
-            _instance = this;
+            
 
             sprite = new Sprite("gameAssets/000.png");
             AddChild(sprite);
@@ -33,15 +32,8 @@ namespace GraphicalTestApp
             OnUpdate += TouchPlayer;
             OnUpdate += TouchBullet;
         }
-        
-        public static Enemy Instance
-        {
-            get
-            {
-                return _instance;
-            }
-        }
 
+        //getting an instance to the Enemy's hitbox
         public AABB HitBox
         {
             get

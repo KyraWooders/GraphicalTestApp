@@ -12,7 +12,7 @@ namespace GraphicalTestApp
         AABB _hitBox;
         private static Sword _instance;
         
-
+        //creates a new sword
         public Sword(float x, float y) : base(x, y)
         {
             _instance = this;
@@ -26,6 +26,7 @@ namespace GraphicalTestApp
             OnUpdate += RotateSword;
         }
 
+        //getting an instance of the sword
         public static Sword Instance
         {
             get
@@ -34,6 +35,7 @@ namespace GraphicalTestApp
             }
         }
 
+        //getting an instance to the sword's hitbox
         public AABB HitBox
         {
             get
@@ -42,6 +44,7 @@ namespace GraphicalTestApp
             }
         }
 
+        //rotates the sword
         private void RotateSword(float deltaTime)
         {
             if (Input.IsKeyDown(262))
@@ -53,5 +56,6 @@ namespace GraphicalTestApp
                 Rotate(-10f * deltaTime);
             }
         }
+
     }
 }

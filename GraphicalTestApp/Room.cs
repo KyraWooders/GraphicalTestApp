@@ -13,6 +13,7 @@ namespace GraphicalTestApp
         South,
         West
     }
+
     class Room : AABB
     {
         private Room _north;
@@ -24,15 +25,7 @@ namespace GraphicalTestApp
         {
 
         }
-
-        public void Solid(float x, float y)
-        {
-            X = x;
-            Y = y;
-        }
-
-
-
+        
         public Room North
         {
             get
