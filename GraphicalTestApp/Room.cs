@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphicalTestApp
 {
+    //
     enum Direction
     {
         North,

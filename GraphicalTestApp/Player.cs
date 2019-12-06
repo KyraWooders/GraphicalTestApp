@@ -10,7 +10,7 @@ namespace GraphicalTestApp
     {
         private Sword _sword { get; } = new Sword(66,0);
         private static Player _instance;
-        public List<Bullet> _bulletsfired = new List<Bullet>();
+        
         
         Sprite _sprite;
         AABB _hitBox;
@@ -22,8 +22,8 @@ namespace GraphicalTestApp
             OnUpdate += MoveLeft;
             OnUpdate += MoveUp;
             OnUpdate += MoveDown;
-            OnUpdate += FireBulletUp;
-            OnUpdate += FireBulletDown;
+            //OnUpdate += FireBulletUp;
+            //OnUpdate += FireBulletDown;
 
             _instance = this;
 
@@ -91,39 +91,39 @@ namespace GraphicalTestApp
             }
         }
 
-        //fires bullet upwards
-        private void FireBulletUp(float deltaTime)
-        {
-            if (Input.IsKeyPressed(265))//upkey
-            {
-                if (_bulletsfired.Count >= 5)
-                {
-                    Parent.RemoveChild(_bulletsfired[0]);
-                    _bulletsfired.Remove(_bulletsfired[0]);
-                }
-                Bullet bullet = new Bullet(this.X, this.Y);
-                _bulletsfired.Add(bullet);
-                Parent.AddChild(bullet);
-                bullet.MoveUp(deltaTime);
-            }
-        }
+        ////fires bullet upwards
+        //private void FireBulletUp(float deltaTime)
+        //{
+        //    if (Input.IsKeyPressed(265))//upkey
+        //    {
+        //        if (_bulletsfired.Count >= 10)
+        //        {
+        //            Parent.RemoveChild(_bulletsfired[0]);
+        //            _bulletsfired.Remove(_bulletsfired[0]);
+        //        }
+        //        Bullet bullet = new Bullet(this.X, this.Y);
+        //        _bulletsfired.Add(bullet);
+        //        Parent.AddChild(bullet);
 
-        //fires bullets downwards
-        private void FireBulletDown(float deltaTime)
-        {
-            if (Input.IsKeyPressed(264))//downkey
-            {
-                if (_bulletsfired.Count >= 5)
-                {
-                    Parent.RemoveChild(_bulletsfired[0]);
-                    _bulletsfired.Remove(_bulletsfired[0]);
-                }
-                Bullet bullet = new Bullet(this.X, this.Y);
-                _bulletsfired.Add(bullet);
-                Parent.AddChild(bullet);
-                bullet.MoveDown(deltaTime);
-            }
+        //    }
+        //}
+
+        ////fires bullets downwards
+        //private void FireBulletDown(float deltaTime)
+        //{
+        //    if (Input.IsKeyPressed(264))//downkey
+        //    {
+        //        if (_bulletsfired.Count >= 10)
+        //        {
+        //            Parent.RemoveChild(_bulletsfired[0]);
+        //            _bulletsfired.Remove(_bulletsfired[0]);
+        //        }
+        //        Bullet bullet = new Bullet(this.X, this.Y);
+        //        _bulletsfired.Add(bullet);
+        //        Parent.AddChild(bullet);
+        //        bullet.MoveDown(deltaTime);
+        //    }
            
-        }
+        //}
     }
 }

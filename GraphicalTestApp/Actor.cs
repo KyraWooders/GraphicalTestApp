@@ -85,6 +85,16 @@ namespace GraphicalTestApp
             UpdateTransform();
         }
 
+        public Vector3 GetDriection()
+        {
+            return new Vector3(_localTransform.m12, _localTransform.m11, 0);
+        }
+
+        public Vector3 GetDirectionAbsolute()
+        {
+            return new Vector3(_globalTransform.m12, _globalTransform.m11, 0);
+        }
+
         public void AddChild(Actor child)
         {
             //Ensure the entity is not already added
@@ -109,7 +119,7 @@ namespace GraphicalTestApp
             //ready the entity for removal
             _removals.Add(child);
             //
-            child.Parent = null;
+            //child.Parent = null;
         }
 
         public void UpdateTransform()
@@ -170,6 +180,7 @@ namespace GraphicalTestApp
             {
                 //Remove a to _children
                 _children.Remove(a);
+                a.Parent = null;
             }
 
             //Reset the removal list

@@ -11,11 +11,12 @@ namespace GraphicalTestApp
         public float Speed { get; set; } = 60f;
         Sprite _sprite;
         AABB _hitBox;
-        
+        private List<Enemy> _removals;
+
         //creates a new bullet
         public Bullet(float x, float y) : base(x, y)
         {
-           
+            _removals = new List<Enemy>();
             _sprite = new Sprite("gameAssets/bullet.png");
             AddChild(_sprite);
 
@@ -33,16 +34,33 @@ namespace GraphicalTestApp
             }
         }
 
-        //Move one space down
-        public void MoveDown(float deltaTime)
+        //if the Enemy has touched the enemies, remove itself and the enemey
+        private void TouchEnemy(float deltaTime)
         {
-            YVelocity = Speed;
+            foreach(Enemy e in _removals)
+            {
+                if(Program.Enemies.Contains(e))
+                {
+                    Program.Enemies.Remove(e);
+                }
+            }
+            foreach (Enemy e in Program.Enemies)
+            {
+                if (HitBox.DetectCollision(e.HitBox) && e.Parent != null)
+                {
+                    e.Parent.RemoveChild(e);
+                    Parent.RemoveChild(this);
+                    _removals.Add(e);
+                }
+            }
         }
 
-        //move one space up
-        public void MoveUp(float deltaTime)
+        //have the bullet update before the enemy
+        public override void Update(float deltaTime)
         {
-            YVelocity = -Speed;
+            base.Update(deltaTime);
+            TouchEnemy(deltaTime);
         }
+
     }
 }

@@ -9,7 +9,7 @@ namespace GraphicalTestApp
     class Enemy : Entity
     {
         private Direction _facing;
-        public float Speed { get; set; } = 175f;
+        public float Speed { get; set; } = 200f;
         private Sprite sprite;
         private AABB _hitBox;
         
@@ -19,9 +19,7 @@ namespace GraphicalTestApp
         {
             _facing = Direction.North;
             OnUpdate += Move;
-
             
-
             sprite = new Sprite("gameAssets/000.png");
             AddChild(sprite);
 
@@ -30,7 +28,6 @@ namespace GraphicalTestApp
 
             OnUpdate += TouchSword;
             OnUpdate += TouchPlayer;
-            OnUpdate += TouchBullet;
         }
 
         //getting an instance to the Enemy's hitbox
@@ -65,19 +62,7 @@ namespace GraphicalTestApp
                 }
             }
         }
-
-        //if the Enemy has touched bullets, remove itself
-        private void TouchBullet(float deltaTime)
-        {
-            foreach(Bullet b in Player.Instance._bulletsfired)
-            {
-                if (HitBox.DetectCollision(b.HitBox))
-                {
-                    Parent.RemoveChild(this);
-                }
-            }
-        }
-
+        
         //Move in the direction the Enemy is facing
         private void Move(float deltaTime)
         {
