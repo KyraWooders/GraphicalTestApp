@@ -20,13 +20,14 @@ namespace GraphicalTestApp
 
             _sprite = new Sprite("gameAssets/wizstaf.png");
             AddChild(_sprite);
+            
+            Rotate((3 * (float)Math.PI) / 2);
 
             _hitBox = new AABB(_sprite.Width, _sprite.Height);
             AddChild(_hitBox);
 
             OnUpdate += RotateSword;
             OnUpdate += FireBullets;
-
         }
 
         //getting an instance of the sword
@@ -63,9 +64,9 @@ namespace GraphicalTestApp
         //fires a bullet with every tap of the space key if 
         private void FireBullets(float deltaTime)
         {
-            if (Input.IsKeyPressed(32))//upkey
+            if (Input.IsKeyPressed(32))//spacekey
             {
-                if (_bulletsfired.Count >= 15)
+                if (_bulletsfired.Count >= 25)
                 {
                     Parent.Parent.RemoveChild(_bulletsfired[0]);
                     _bulletsfired.Remove(_bulletsfired[0]);
@@ -74,11 +75,10 @@ namespace GraphicalTestApp
                 _bulletsfired.Add(bullet);
                 Parent.Parent.AddChild(bullet);
                 Vector3 direction = GetDirectionAbsolute();
-                direction *= 80;
-                bullet.XVelocity = direction.x;
-                bullet.YVelocity = direction.y;
+                direction *= 100;
+                bullet.XAcceleration = direction.x;
+                bullet.YAcceleration = direction.y;
             }
         }
-
     }
 }

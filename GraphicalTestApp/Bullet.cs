@@ -8,7 +8,7 @@ namespace GraphicalTestApp
 {
     class Bullet : Entity
     {
-        public float Speed { get; set; } = 60f;
+        public float Speed { get; set; } = 160f;
         Sprite _sprite;
         AABB _hitBox;
         private List<Enemy> _removals;
@@ -22,7 +22,6 @@ namespace GraphicalTestApp
 
             _hitBox = new AABB(_sprite.Width, _sprite.Height);
             AddChild(_hitBox);
-            
         }
 
         //getting an instance to the bullet's hitbox

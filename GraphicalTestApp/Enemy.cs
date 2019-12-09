@@ -6,13 +6,21 @@ using System.Threading.Tasks;
 
 namespace GraphicalTestApp
 {
+    //give the enemies directions when moving
+    enum Direction
+    {
+        North,
+        East,
+        South,
+        West
+    }
+    
     class Enemy : Entity
     {
         private Direction _facing;
         public float Speed { get; set; } = 200f;
         private Sprite sprite;
         private AABB _hitBox;
-        
         
         //creates a new enemy
         public Enemy(float x, float y) : base(x, y)
